@@ -1,16 +1,12 @@
 import Keycloak from 'keycloak-js';
 
-const keycloakUrl = process.env.NEXT_PUBLIC_KEYCLOAK_URL;
-const keycloakRealm = process.env.NEXT_PUBLIC_KEYCLOAK_REALM;
-const keycloakClientId = process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID;
+const keycloakUrl = process.env.NEXT_PUBLIC_KEYCLOAK_URL ?? 'http://localhost:8081';
+const keycloakRealm = process.env.NEXT_PUBLIC_KEYCLOAK_REALM ?? 'serenica';
+const keycloakClientId = process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID ?? 'serenica-frontend';
 
 let keycloakInstance: Keycloak | null = null;
 
 export function getKeycloakClient(): Keycloak {
-  if (!keycloakUrl || !keycloakRealm || !keycloakClientId) {
-    throw new Error('Missing Keycloak environment variables.');
-  }
-
   if (!keycloakInstance) {
     keycloakInstance = new Keycloak({
       url: keycloakUrl,
