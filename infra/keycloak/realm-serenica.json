@@ -36,8 +36,10 @@
       "username": "therapist",
       "enabled": true,
       "emailVerified": true,
+      "email": "therapist@serenica.local",
       "firstName": "Demo",
       "lastName": "Therapist",
+      "requiredActions": [],
       "credentials": [
         {
           "type": "password",
