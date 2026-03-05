@@ -20,6 +20,7 @@ export function PageHeader({
           <Icon size={18} />
         </div>
         <div>
+          <p className="page-kicker">Clinical Operations</p>
           <h2>{title}</h2>
           <p>{subtitle}</p>
         </div>
