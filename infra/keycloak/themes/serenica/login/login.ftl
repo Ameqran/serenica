@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serenica — Sign In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+
+/* ─── Design Tokens ──────────────────────────────────────────────── */
+:root {
+  --coral-light:   #f5b28a;
+  --coral-mid:     #ef9079;
+  --coral-deep:    #ec6f6e;
+  --surface-0:     #0c0f13;
+  --surface-1:     #10141b;
+  --surface-card:  rgba(18, 24, 33, 0.96);
+  --ink-primary:   #f5efe7;
+  --ink-muted:     #9fa8b0;
+  --ink-faint:     #5a6370;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-focus:  rgba(239, 144, 121, 0.7);
+  --radius-card:   18px;
+  --radius-input:  11px;
+  --radius-btn:    11px;
+  --transition:    200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: 'Geist', sans-serif;
+  font-size: 14px;
+  color: var(--ink-primary);
+  background-color: var(--surface-0);
+  background-image:
+    radial-gradient(ellipse 60% 40% at 8% 4%,  rgba(245, 178, 138, 0.13) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 35% at 94% 6%,  rgba(236, 111, 110, 0.13) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 50% 110%, rgba(236, 111, 110, 0.07) 0%, transparent 60%),
+    linear-gradient(180deg, #0c0f13 0%, #0e1219 60%, #101520 100%);
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  position: relative;
+}
+
+.page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.55;
+}
+
+/* ── Header ── */
+.header { text-align: center; margin-bottom: 10px; position: relative; z-index: 1; }
+
+.logo-mark {
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 14px;
+  display: block;
+  position: relative;
+}
+
+.logo-svg {
+  width: 76px;
+  height: 76px;
+  filter:
+    drop-shadow(0 0 18px rgba(239, 144, 121, 0.45))
+    drop-shadow(0 8px 24px rgba(236, 111, 110, 0.3));
+  animation: logo-breathe 5s ease-in-out infinite;
+}
+
+@keyframes logo-breathe {
+  0%,100% { filter: drop-shadow(0 0 18px rgba(239,144,121,0.45)) drop-shadow(0 8px 24px rgba(236,111,110,0.3)); }
+  50%      { filter: drop-shadow(0 0 28px rgba(239,144,121,0.65)) drop-shadow(0 8px 32px rgba(236,111,110,0.45)); }
+}
+
+.brand-name {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  background: linear-gradient(135deg, #f5efe7 30%, var(--coral-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Card ── */
+.card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  background: var(--surface-card);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-top-color: rgba(255,255,255,0.13);
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.4),
+    0 24px 60px rgba(4,7,12,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  border-radius: var(--radius-card);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  animation: card-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 20px; right: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245,178,138,0.35), transparent);
+  pointer-events: none;
+}
+
+@keyframes card-rise {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+
+.card-body { padding: 32px 32px 28px; }
+
+.form-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: var(--ink-primary);
+  margin: 0 0 22px;
+}
+
+/* ── Form Groups ── */
+.form-group { margin-bottom: 18px; }
+
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 7px;
+}
+
+/* ── Inputs ── */
+input[type='text'],
+input[type='email'],
+input[type='password'] {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: var(--radius-input);
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(10,14,20,0.85);
+  color: var(--ink-primary);
+  font-family: 'Geist', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  -webkit-appearance: none;
+}
+
+input::placeholder { color: var(--ink-faint); }
+
+input:hover:not(:focus) {
+  border-color: rgba(255,255,255,0.18);
+}
+
+input:focus {
+  border-color: var(--border-focus);
+  background: rgba(14,19,27,0.95);
+  box-shadow: 0 0 0 3px rgba(239,144,121,0.14), 0 2px 8px rgba(239,144,121,0.08);
+}
+
+/* ── Password wrapper ── */
+.input-group {
+  position: relative;
+  display: flex;
+}
+
+.input-group input {
+  border-radius: var(--radius-input) 0 0 var(--radius-input);
+  flex: 1;
+}
+
+.toggle-btn {
+  background: rgba(10,14,20,0.85);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-left: none;
+  border-radius: 0 var(--radius-input) var(--radius-input) 0;
+  color: var(--ink-muted);
+  padding: 0 13px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: color var(--transition);
+  display: flex; align-items: center;
+}
+
+.toggle-btn:hover { color: var(--coral-light); }
+
+/* ── Options row ── */
+.form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+
+input[type='checkbox'] {
+  accent-color: var(--coral-mid);
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+a {
+  color: var(--coral-light);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color var(--transition);
+}
+
+a:hover {
+  color: #fcd3b9;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ── Primary button ── */
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: var(--radius-btn);
+  border: none;
+  cursor: pointer;
+  font-family: 'Geist', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #1b0d0d;
+  background: linear-gradient(135deg, #f5b28a 0%, #ef9079 50%, #ec6f6e 100%);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.15) inset,
+    0 6px 20px rgba(239,144,121,0.28),
+    0 2px 6px rgba(236,111,110,0.2);
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+  margin-bottom: 0;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.18) 50%, transparent 60%);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.btn-primary:hover::after { transform: translateX(100%); }
+
+.btn-primary:hover {
+  filter: brightness(1.06) saturate(1.1);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.18) inset,
+    0 10px 28px rgba(239,144,121,0.38),
+    0 3px 10px rgba(236,111,110,0.3);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  filter: brightness(0.97);
+}
+
+/* ── Divider ── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+  color: var(--ink-faint);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-subtle);
+}
+
+/* ── Social buttons ── */
+.social-list { display: flex; flex-direction: column; gap: 10px; }
+
+.btn-social {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 16px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-btn);
+  color: var(--ink-primary);
+  font-family: 'Geist', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
+  width: 100%;
+}
+
+.btn-social:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.16);
+}
+
+.btn-social svg { flex-shrink: 0; }
+
+/* ── Footer ── */
+.card-footer {
+  text-align: center;
+  padding: 14px 20px 20px;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+
+/* ── Alert ── */
+.alert-error {
+  padding: 11px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-bottom: 16px;
+  background: rgba(236,111,110,0.1);
+  border: 1px solid rgba(236,111,110,0.25);
+  color: #f5a0a0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
+::selection { background: rgba(239,144,121,0.3); color: var(--ink-primary); }
+:focus-visible { outline: 2px solid rgba(239,144,121,0.6); outline-offset: 2px; }
+
+@media (max-width: 480px) {
+  .card-body { padding: 24px 20px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo-mark">
+      <!-- Placeholder SVG logo (replace with your actual logo image) -->
+      <svg class="logo-svg" viewBox="0 0 76 76" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="38" cy="38" r="34" stroke="url(#lg1)" stroke-width="1.5" opacity="0.4"/>
+        <circle cx="38" cy="38" r="24" fill="url(#lg2)" opacity="0.15"/>
+        <path d="M38 16 C38 16, 52 28, 52 38 C52 48, 38 60, 38 60 C38 60, 24 48, 24 38 C24 28, 38 16, 38 16Z" fill="url(#lg2)" opacity="0.8"/>
+        <circle cx="38" cy="38" r="6" fill="url(#lg3)"/>
+        <defs>
+          <linearGradient id="lg1" x1="4" y1="4" x2="72" y2="72" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#f5b28a"/>
+            <stop offset="1" stop-color="#ec6f6e"/>
+          </linearGradient>
+          <linearGradient id="lg2" x1="24" y1="16" x2="52" y2="60" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#f5b28a"/>
+            <stop offset="1" stop-color="#ec6f6e"/>
+          </linearGradient>
+          <linearGradient id="lg3" x1="32" y1="32" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#fcd3b9"/>
+            <stop offset="1" stop-color="#ef9079"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div class="brand-name">Serenica</div>
+  </div>
+
+  <!-- Card -->
+  <div class="card" style="margin-top: 12px;">
+
+    <div class="card-body">
+      <h1 class="form-title">Welcome back</h1>
+
+      <#if message?has_content && message.type == 'error'>
+      <div class="alert-error">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6.5" stroke="#f5a0a0" stroke-width="1.2"/><path d="M7.5 4.5v3.5M7.5 10v.5" stroke="#f5a0a0" stroke-width="1.4" stroke-linecap="round"/></svg>
+        ${message.summary}
+      </div>
+      </#if>
+
+      <form id="kc-form-login" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post">
+        <!-- Username -->
+        <div class="form-group">
+          <label for="username">Username or Email</label>
+          <input type="text" id="username" name="username" value="${(login.username!'')}" placeholder="you@example.com" autocomplete="username">
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-group">
+            <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password">
+            <button class="toggle-btn" type="button" aria-label="Show password" onclick="togglePw(this)">
+              <svg id="eye-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z"/>
+                <circle cx="8" cy="8" r="2.2"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Options -->
+        <div class="form-options">
+          <#if realm.rememberMe>
+          <label class="remember">
+            <input type="checkbox" id="rememberMe" name="rememberMe" <#if login.rememberMe??>checked</#if>> Remember me
+          </label>
+          <#else>
+          <span></span>
+          </#if>
+          <#if realm.resetPasswordAllowed>
+          <a href="${url.loginResetCredentialsUrl}">Forgot password?</a>
+          </#if>
+        </div>
+
+        <#if auth?has_content && auth.selectedCredential?has_content>
+        <input type="hidden" id="id-hidden-input" name="credentialId" value="${auth.selectedCredential}">
+        </#if>
+
+        <!-- Submit -->
+        <button class="btn-primary" type="submit" id="kc-login" name="login">Sign in</button>
+      </form>
+
+      <!-- Social -->
+      <#if social?? && social.providers?has_content>
+      <div class="divider">or continue with</div>
+      <div class="social-list">
+        <#list social.providers as p>
+        <a class="btn-social" href="${p.loginUrl}">
+          Continue with ${p.displayName}
+        </a>
+        </#list>
+      </div>
+      </#if>
+    </div>
+
+    <#if realm.registrationAllowed>
+    <div class="card-footer">
+      Don't have an account? <a href="${url.registrationUrl}">Create one</a>
+    </div>
+    </#if>
+  </div>
+
+</div>
+
+<script>
+function togglePw(btn) {
+  const input = btn.closest('.input-group').querySelector('input');
+  const isPassword = input.type === 'password';
+  input.type = isPassword ? 'text' : 'password';
+  btn.querySelector('svg').style.opacity = isPassword ? '0.5' : '1';
+}
+</script>
+</body>
+</html>
