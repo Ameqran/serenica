@@ -33,10 +33,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <div className="shell-root">
       <aside className="shell-sidebar">
         <div className="brand">
-          <div className="brand-mark">S</div>
+          <div className="brand-mark">
+            <img alt="Serenica logo" src="/serenica-logo.png" />
+          </div>
           <div>
             <h1>Serenica</h1>
-            <p>Evidence-led therapy OS</p>
+            <p>Clinical intelligence workspace</p>
           </div>
         </div>
 

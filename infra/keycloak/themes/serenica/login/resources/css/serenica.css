@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&display=swap');
+
+body.login-pf,
+.login-pf body {
+  background:
+    radial-gradient(circle at 10% 5%, rgba(245, 178, 138, 0.2), transparent 26%),
+    radial-gradient(circle at 90% 8%, rgba(236, 111, 110, 0.2), transparent 30%),
+    linear-gradient(180deg, #0c0f13 0%, #10141b 100%) !important;
+  color: #f5efe7;
+  font-family: 'Geist', sans-serif;
+}
+
+.login-pf-page {
+  min-height: 100vh;
+}
+
+#kc-header {
+  margin-bottom: 10px;
+}
+
+#kc-header-wrapper {
+  color: transparent;
+  font-size: 0;
+  line-height: 0;
+}
+
+#kc-header-wrapper::before {
+  content: '';
+  display: block;
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 10px;
+  background: url('../img/serenica-logo.png') center/contain no-repeat;
+  filter: drop-shadow(0 10px 22px rgba(239, 144, 121, 0.35));
+}
+
+#kc-header-wrapper::after {
+  content: 'Serenica';
+  display: block;
+  font-family: 'Instrument Serif', serif;
+  font-size: 34px;
+  line-height: 1;
+  color: #f5efe7;
+  letter-spacing: 0.03em;
+}
+
+.login-pf-page .card-pf,
+#kc-content-wrapper {
+  background: rgba(23, 29, 37, 0.92) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 18px 42px rgba(4, 7, 12, 0.42) !important;
+  border-radius: 14px !important;
+}
+
+.kcFormCardClass,
+#kc-content {
+  color: #f5efe7;
+}
+
+.kcLabelClass,
+#kc-content-wrapper label,
+.form-label {
+  color: #b9b0a5 !important;
+}
+
+.kcInputClass,
+#kc-content-wrapper input,
+#kc-content-wrapper select,
+#kc-content-wrapper textarea {
+  border-radius: 10px !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  background: #11171f !important;
+  color: #f5efe7 !important;
+}
+
+.kcInputClass:focus,
+#kc-content-wrapper input:focus,
+#kc-content-wrapper select:focus,
+#kc-content-wrapper textarea:focus {
+  border-color: #ef9079 !important;
+  box-shadow: 0 0 0 3px rgba(239, 144, 121, 0.2) !important;
+}
+
+.pf-v5-c-button.pf-m-primary,
+#kc-login,
+#kc-register,
+#kc-otp-login-form [type='submit'] {
+  border-radius: 10px !important;
+  border: none !important;
+  color: #1b0d0d !important;
+  font-weight: 600 !important;
+  background: linear-gradient(135deg, #f5b28a, #ec6f6e) !important;
+  box-shadow: 0 8px 22px rgba(239, 144, 121, 0.25);
+}
+
+a,
+.pf-v5-c-button.pf-m-link {
+  color: #f5b28a !important;
+}

@@ -4,6 +4,7 @@
   "registrationAllowed": false,
   "rememberMe": true,
   "resetPasswordAllowed": true,
+  "loginTheme": "serenica",
   "clients": [
     {
       "clientId": "serenica-frontend",
