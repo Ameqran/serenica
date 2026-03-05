@@ -1,58 +1,97 @@
-# Serenica
+# Serenica Platform
 
-Spring Boot backend + HTML frontend for therapy workflow management.
+Serenica is now split into:
+
+- Spring Boot backend (`/`) secured by Keycloak JWT
+- Next.js frontend (`/frontend`) with Keycloak login and a modern clinical workspace UI
+
+The platform starts empty (no seed/dummy data).
 
 ## Stack
 
-- Java 21
-- Spring Boot 3.3.x
-- Maven (simple single-module architecture)
-- PostgreSQL (Docker Compose)
+- Java 21 + Maven + Spring Boot 3.3
+- PostgreSQL 16
+- Keycloak 26 (Docker)
+- Next.js 16 + TypeScript + Lucide icons
 - Lombok
 
-## Functional Scope
+## Features Implemented
 
-Implemented modules:
-
-- Patients (clients)
-- Bookings
-- Sessions
-- Session editor
-- Manual notes
+- Patients management
+- Bookings management
+- Sessions management
+- Sessions editor (manual notes)
 - Notes library
 - Dashboard
+- Keycloak authentication (frontend + backend)
 
-AI features are intentionally placeholder-only for now.
+AI workflows are intentionally deferred.
 
 ## Project Structure
 
-- `src/main/java/com/ameqran/serenica` -> backend application, domain, services, controllers
-- `src/main/resources/static/index.html` -> frontend served by Spring Boot
-- `docker-compose.yml` -> PostgreSQL service
+- `src/main/java/com/ameqran/serenica` -> backend API
+- `frontend` -> Next.js frontend app
+- `docker-compose.yml` -> Postgres + Keycloak + Keycloak DB
+- `infra/keycloak/realm-serenica.json` -> imported Keycloak realm config
 
-## Run
+## Local Setup
 
-1. Start PostgreSQL:
+1. Start infrastructure:
 
 ```bash
-docker compose up -d postgres
+docker compose up -d postgres keycloak-db keycloak
 ```
 
-2. Run app (Java 21):
+2. Run backend:
 
 ```bash
 mvn spring-boot:run
 ```
 
-3. Open:
+3. Configure frontend env:
 
-- Frontend: `http://localhost:8080`
-- Dashboard API: `http://localhost:8080/api/dashboard/overview`
+```bash
+cp frontend/.env.example frontend/.env.local
+```
 
-## Build (no tests)
+4. Run frontend:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+5. Open frontend:
+
+- `http://localhost:3000`
+
+## Keycloak Test Credentials
+
+Realm import includes a ready local user:
+
+- Username: `therapist`
+- Password: `therapist123`
+
+Admin console:
+
+- `http://localhost:8081/admin`
+- Admin user: `admin`
+- Admin password: `admin`
+
+## Build Verification
+
+Backend:
 
 ```bash
 mvn -DskipTests package
+```
+
+Frontend:
+
+```bash
+cd frontend
+npm run build
 ```
 
 ## API Endpoints
@@ -65,6 +104,4 @@ mvn -DskipTests package
 - `GET/POST/PUT /api/notes`
 - `GET /api/dashboard/overview`
 
-## Seed Data
-
-On first startup, sample patients/bookings/sessions/notes are seeded automatically.
+All `/api/**` endpoints require a valid Keycloak bearer token.
